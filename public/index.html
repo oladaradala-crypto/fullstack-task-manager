@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TaskFlow is a full-stack task management application built with HTML, CSS, JavaScript, Node.js, Express.js and PostgreSQL.">
+  <title>TaskFlow | Task Management Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- AUTHENTICATION -->
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+
+      <div class="auth-brand">
+        <div class="brand-icon">✓</div>
+        <h1>TaskFlow</h1>
+      </div>
+
+      <p class="auth-subtitle">
+        Manage your tasks, stay organised and track your progress.
+      </p>
+
+      <div class="auth-tabs">
+        <button type="button" id="loginTab" class="auth-tab active">
+          Sign In
+        </button>
+
+        <button type="button" id="registerTab" class="auth-tab">
+          Create Account
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="auth-form">
+
+        <h2>Welcome Back</h2>
+        <p>Sign in to continue to your workspace.</p>
+
+        <label for="loginEmail">Email Address</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
+
+        <label for="loginPassword">Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit" class="primary-btn auth-submit">
+          Sign In
+        </button>
+
+      </form>
+
+      <!-- REGISTRATION FORM -->
+      <form id="registerForm" class="auth-form" hidden>
+
+        <h2>Create Your Account</h2>
+        <p>Get started with your personal workspace.</p>
+
+        <label for="registerName">Full Name</label>
+        <input
+          type="text"
+          id="registerName"
+          placeholder="Enter your full name"
+          maxlength="100"
+          autocomplete="name"
+          required
+        >
+
+        <label for="registerEmail">Email Address</label>
+        <input
+          type="email"
+          id="registerEmail"
+          placeholder="Enter your email"
+          autocomplete="email"
+          required
+        >
+
+        <label for="registerPassword">Password</label>
+        <input
+          type="password"
+          id="registerPassword"
+          placeholder="Create a password"
+          minlength="8"
+          autocomplete="new-password"
+          required
+        >
+
+        <button type="submit" class="primary-btn auth-submit">
+          Create Account
+        </button>
+
+      </form>
+
+      <div id="authMessage" class="message" role="status" aria-live="polite"></div>
+
+      <p class="auth-footer">
+        TaskFlow — Developed by Jemilat Olatunji
+      </p>
+
+    </div>
+  </section>
+
+  <!-- MAIN APPLICATION -->
+  <div class="app" id="appScreen" hidden>
+
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-icon">✓</div>
+        <span>TaskFlow</span>
+      </div>
+
+      <div class="sidebar-content">
+
+        <p class="menu-label">WORKSPACE</p>
+
+        <nav aria-label="Main navigation">
+
+          <a href="#dashboard" class="nav-link active">
+            <span>▦</span> Dashboard
+          </a>
+
+          <a href="#tasks" class="nav-link">
+            <span>☑</span> My Tasks
+          </a>
+
+        </nav>
+
+      </div>
+
+      <div class="sidebar-footer">
+
+        <div class="avatar" id="userAvatar">U</div>
+
+        <div class="user-details">
+          <strong id="userName">User</strong>
+          <small id="userEmail">Personal Workspace</small>
+        </div>
+
+      </div>
+
+      <button type="button" id="logoutBtn" class="logout-btn">
+        Sign Out
+      </button>
+
+    </aside>
+
+    <main class="main-content" id="dashboard">
+
+      <header class="topbar">
+
+        <div>
+          <p class="eyebrow">PERSONAL WORKSPACE</p>
+
+          <h1>Task Dashboard</h1>
+
+          <p class="subtitle">
+            Organise your work, manage priorities and track your progress.
+          </p>
+        </div>
+
+        <div class="topbar-actions">
+
+          <span class="status-badge">
+            <span class="status-dot"></span>
+            Workspace
+          </span>
+
+        </div>
+
+      </header>
+
+      <!-- DASHBOARD STATISTICS -->
+      <section class="stats-grid" aria-label="Task statistics">
+
+        <div class="stat-card">
+          <div class="stat-icon purple">☷</div>
+          <p>Total Tasks</p>
+          <h2 id="totalTasks">0</h2>
+          <span>All tasks</span>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">◷</div>
+          <p>Pending</p>
+          <h2 id="pendingTasks">0</h2>
+          <span>Tasks to complete</span>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon green">✓</div>
+          <p>Completed</p>
+          <h2 id="completedTasks">0</h2>
+          <span>Finished tasks</span>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon blue">↗</div>
+          <p>Progress</p>
+          <h2 id="progress">0%</h2>
+          <span>Completion rate</span>
+        </div>
+
+      </section>
+
+      <!-- TASK MANAGEMENT -->
+      <section class="task-panel" id="tasks">
+
+        <div class="section-header">
+
+          <div>
+            <h2>My Tasks</h2>
+            <p>Keep track of everything you need to do.</p>
+          </div>
+
+          <span class="task-count" id="taskCount">0 tasks</span>
+
+        </div>
+
+        <form id="taskForm" class="task-form">
+
+          <label for="taskInput" class="sr-only">
+            Task title
+          </label>
+
+          <input
+            type="text"
+            id="taskInput"
+            placeholder="What do you need to work on?"
+            maxlength="150"
+            required
+          >
+
+          <button type="submit" class="primary-btn" id="addTaskBtn">
+            + Add Task
+          </button>
+
+        </form>
+
+        <!-- TASK FILTERS -->
+        <div class="task-toolbar">
+
+          <div class="filters" aria-label="Filter tasks">
+
+            <button type="button" class="filter-btn active" data-filter="all">
+              All Tasks
+            </button>
+
+            <button type="button" class="filter-btn" data-filter="pending">
+              Pending
+            </button>
+
+            <button type="button" class="filter-btn" data-filter="completed">
+              Completed
+            </button>
+
+          </div>
+
+          <label for="searchInput" class="sr-only">
+            Search tasks
+          </label>
+
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search tasks..."
+          >
+
+        </div>
+
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+
+        <!-- TASK LIST -->
+        <div id="taskList" class="task-list">
+
+          <div class="empty-state">
+            <div class="empty-icon">☑</div>
+            <h3>No tasks yet</h3>
+            <p>Add your first task to get started.</p>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+
+        <p>TaskFlow — Full-Stack Task Management Application</p>
+
+        <p>Developed by Jemilat Olatunji</p>
+
+      </footer>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
